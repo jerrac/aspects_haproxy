@@ -1,0 +1,31 @@
+---
+- name: restart haproxy
+  service:
+    name: haproxy
+    state: restarted
+    enabled: yes
+  tags:
+    - aspects_haproxy
+
+- name: reload haproxy
+  service:
+    name: haproxy
+    state: reloaded
+    enabled: yes
+  tags:
+    - aspects_haproxy
+
+- name: start haproxy
+  service:
+    name: haproxy
+    state: started
+    enabled: yes
+  tags:
+    - aspects_haproxy
+
+- name: stop haproxy
+  service:
+    name: haproxy
+    state: stopped
+  tags:
+    - aspects_haproxy

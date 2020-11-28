@@ -1,0 +1,7 @@
+---
+- name: "Run aspects_haproxy role."
+  when:
+    - aspects_haproxy_enabled
+  include_tasks: "init.yml"
+  tags:
+    - aspects_haproxy

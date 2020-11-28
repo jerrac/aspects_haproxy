@@ -1,0 +1,8 @@
+# {{ ansible_managed }}
+{{ aspects_haproxy_config_global }}
+{{ aspects_haproxy_config_defaults }}
+{% for item in aspects_haproxy_config|default({})|dictsort(true,'key') %}
+{% if aspects_haproxy_config[item[0]].enabled %}
+{{ aspects_haproxy_config[item[0]].block }}
+{% endif %}
+{% endfor %}
