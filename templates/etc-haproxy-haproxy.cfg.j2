@@ -1,8 +1,46 @@
 # {{ ansible_managed }}
+############### global configuration ###############
 {{ aspects_haproxy_config_global }}
+
+############## defaults configuration ##############
 {{ aspects_haproxy_config_defaults }}
-{% for item in aspects_haproxy_config|default({})|dictsort(true,'key') %}
-{% if aspects_haproxy_config[item[0]].enabled %}
-{{ aspects_haproxy_config[item[0]].block }}
+
+############# frontends configuration #############
+{% for frontend_item in aspects_haproxy_frontends | default({}) | dictsort(true,'key') %}
+{% if frontend_item.1.enabled %}
+# start {{ frontend_item.0 }} frontend
+frontend {{ frontend_item.0 }}
+mode {{ frontend_item.1.mode }}
+{{ frontend_item.1.options | default('')}}
+{{ frontend_item.1.binds }}
+{% for section in frontend_item.1.sections | default({}) | dictsort(true,'key') %}
+{% if section.1.enabled %}
+{{ section.1.block }}
+{% endif %}
+{% endfor %}
+# end {{ frontend_item.0 }} frontend
+{% endif %}
+{% endfor %}
+
+############## backends configuration ##############
+{% for backend_item in aspects_haproxy_backends | default({}) | dictsort(true,'key') %}
+{% if backend_item.1.enabled %}
+# start {{ backend_item.0 }} backend
+{{ backend_item.1.block }}
+# end {{ backend_item.0 }} backend
+{% endif %}
+{% endfor %}
+
+
+############## listens configuration ##############
+{% for listen_item in aspects_haproxy_listens | default({}) | dictsort(true,'key') %}
+{% if listen_item.1.enabled %}
+# start {{ listen_item.0 }} listen
+listen {{ listen_item.0 }}
+mode {{ listen_item.1.mode }}
+{{ listen_item.1.binds }}
+{{ listen_item.1.options | default('')}}
+{{ listen_item.1.block }}
+# end {{ listen_item.0 }} listen
 {% endif %}
 {% endfor %}
