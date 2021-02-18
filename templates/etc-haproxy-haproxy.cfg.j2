@@ -17,16 +17,19 @@ mode {{ frontend_item.1.mode }}
 
 ## start options
 {{ frontend_item.1.options | default('') -}}
+
 ## end options
 
 ## start binds
 {{ frontend_item.1.binds }}
+
 ## end binds
 
 {% for section in frontend_item.1.sections | default({}) | dictsort(true,'key') %}
 {% if section.1.enabled is defined and section.1.enabled %}
 ### start frontend section {{ section.0 }}
 {{ section.1.block -}}
+
 ### end frontend section {{ section.0 }}
 
 {% endif %}
@@ -41,6 +44,7 @@ mode {{ frontend_item.1.mode }}
 {% if backend_item.1.enabled %}
 # start {{ backend_item.0 }} backend
 {{ backend_item.1.block -}}
+
 # end {{ backend_item.0 }} backend
 
 {% endif %}
@@ -56,6 +60,7 @@ mode {{ listen_item.1.mode }}
 {{ listen_item.1.binds }}
 {{ listen_item.1.options | default('')}}
 {{ listen_item.1.block }}
+
 # end {{ listen_item.0 }} listen
 
 {% endif %}
