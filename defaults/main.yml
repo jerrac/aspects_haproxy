@@ -5,12 +5,16 @@ aspects_packages_add_repo_apt_repos:
     enabled: True
     repo:
       Ubuntu:
+        1604: "ppa:vbernat/haproxy-2.2"
+        1804: "ppa:vbernat/haproxy-2.2"
         2004: "ppa:vbernat/haproxy-2.2"
 
 aspects_packages_packages:
   haproxy:
     state: "present"
     Ubuntu:
+      1604: "haproxy=2.2.*"
+      1804: "haproxy=2.2.*"
       2004: "haproxy=2.2.*"
 
 aspects_haproxy_config_global: |
