@@ -7,6 +7,20 @@
 
 {{ aspects_haproxy_config_defaults }}
 
+############## before configuration ##############
+{% for before_item in aspects_haproxy_before | default({}) | dictsort(true,'key') %}
+{% if before_item.1.enabled is defined and before_item.1.enabled %}
+{{ before_item.1.block }}
+{% endif %}
+{% endfor %}
+
+############## userlists configuration ##############
+{% for userlist_item in aspects_haproxy_userlists | default({}) | dictsort(true,'key') %}
+{% if userlist_item.1.enabled is defined and userlist_item.1.enabled %}
+{{ userlist_item.1.block }}
+{% endif %}
+{% endfor %}
+
 ############# frontends configuration #############
 
 {% for frontend_item in aspects_haproxy_frontends | default({}) | dictsort(true,'key') %}
@@ -63,5 +77,12 @@ mode {{ listen_item.1.mode }}
 
 # end {{ listen_item.0 }} listen
 
+{% endif %}
+{% endfor %}
+
+############## after configuration ##############
+{% for after_item in aspects_haproxy_after | default({}) | dictsort(true,'key') %}
+{% if after_item.1.enabled is defined and after_item.1.enabled %}
+{{ after_item.1.block }}
 {% endif %}
 {% endfor %}

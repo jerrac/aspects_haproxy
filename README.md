@@ -38,6 +38,31 @@ The value in [defaults/main.yml](defaults/main.yml) is from the Ubuntu 20.04 pac
 
 See this section of the [official documentation](http://cbonte.github.io/haproxy-dconv/2.2/configuration.html#4) for a description of what this section does.
 
+## aspects_haproxy_before
+Configuration in this section will go directly after the defaults section, and before any other sections.
+
+```yaml
+aspects_haproxy_before:
+  01234something:
+    enabled: < True | False >
+    block: |
+      # config goes here.
+```
+
+## aspects_haproxy_userlists
+As far as I can tell, the best place for userlists is before any frontend or backend configuration. So
+this config section is placed before the frontend section.
+
+```yaml
+aspects_haproxy_userlists:
+  01234something:
+    enabled: < True | False >
+    block: |
+      # config goes here.
+      userlist < name of list >
+      < lines like: user alice insecure-password passchangeme >
+```
+
 ## aspects_haproxy_frontends
 A dictionary of `frontend` configurations. 
 
@@ -115,6 +140,17 @@ aspects_haproxy_listens:
       < a block of text
         containing the bind configuration you
         wish to use >
+```
+
+## aspects_haproxy_after
+Configuration in this section will go after all other sections.
+
+```yaml
+aspects_haproxy_after:
+  01234something:
+    enabled: < True | False >
+    block: |
+      # config goes here.
 ```
 
 # Dependencies
